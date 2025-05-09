@@ -6,7 +6,7 @@ import { Task } from "@/interfaces/todo";
 
 export default function UpdateTask() {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id") || "";
+  const id : number = Number(searchParams.get("id"));
   const router = useRouter();
   const [task, setTask] = useState<Task | null>(null);
 

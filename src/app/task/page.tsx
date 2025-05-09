@@ -14,7 +14,7 @@ export default function TaskPage() {
     setTasks(getTasks());
   }, []);
 
-  const confirmDelete = (id: string) => {
+  const confirmDelete = (id: number) => {
     deleteTask(id);
     setTasks(getTasks());
     setTaskToDelete(null);

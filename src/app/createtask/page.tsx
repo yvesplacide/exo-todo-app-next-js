@@ -11,7 +11,7 @@ export default function CreateTask() {
   const handleAdd = () => {
     if (!title.trim()) return;
     const newTask: Task = {
-      id: Date.now().toString(),
+      id: Date.now(),
       title,
       completed: false,
     };

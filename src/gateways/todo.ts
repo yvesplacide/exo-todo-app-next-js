@@ -23,11 +23,11 @@ export const updateTask = (updatedTask: Task) => {
   saveTasks(tasks);
 };
 
-export const deleteTask = (id: string) => {
+export const deleteTask = (id: number) => {
   const tasks = getTasks().filter(t => t.id !== id);
   saveTasks(tasks);
 };
 
-export const getTaskById = (id: string): Task | undefined => {
+export const getTaskById = (id: number): Task | undefined => {
   return getTasks().find(t => t.id === id);
 };
