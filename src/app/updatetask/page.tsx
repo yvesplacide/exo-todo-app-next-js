@@ -2,13 +2,14 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getTaskById, updateTask } from "@/gateways/todo";
-import { Task } from "@/interfaces/todo";
+import { ITodo } from "@/interfaces/todo";
+
 
 export default function UpdateTask() {
   const searchParams = useSearchParams();
   const id : number = Number(searchParams.get("id"));
   const router = useRouter();
-  const [task, setTask] = useState<Task | null>(null);
+  const [task, setTask] = useState<ITodo | null>(null);
 
   useEffect(() => {
     const t = getTaskById(id);
@@ -30,7 +31,7 @@ export default function UpdateTask() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-400 px-4">
       <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md">
         <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Modifier la tâche</h1>
 
@@ -41,22 +42,35 @@ export default function UpdateTask() {
           placeholder="Titre de la tâche"
         />
 
-        <label className="flex items-center gap-2 mb-6 text-gray-700">
-          <input
-            type="checkbox"
-            checked={task.completed}
-            onChange={(e) => setTask({ ...task, completed: e.target.checked })}
-            className="accent-green-600 w-5 h-5"
-          />
-          Marquer comme complétée
-        </label>
+        <label className="block mb-6 text-gray-700">
+  Statut :
+  <select
+    value={task.completed ? "completed" : "in-progress"}
+    onChange={(e) =>
+      setTask({ ...task, completed: e.target.value === "completed" })
+    }
+    className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="in-progress">En cours</option>
+    <option value="completed">Terminée</option>
+  </select>
+</label>
 
-        <button
-          onClick={handleUpdate}
-          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
-        >
-          Enregistrer
-        </button>
+       <div className="flex justify-end gap-3 mt-6">
+  <button
+    onClick={() => router.push("/task")}
+    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+  >
+    Annuler
+  </button>
+  <button
+    onClick={handleUpdate}
+    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+  >
+    Enregistrer
+  </button>
+</div>
+
       </div>
     </div>
   );
