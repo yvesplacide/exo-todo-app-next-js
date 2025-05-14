@@ -35,13 +35,13 @@ export default function CreateTask() {
     <div className="flex justify-end gap-3">
       <button
         onClick={() => router.push("/task")}
-        className="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300 transition"
+        className="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300 transition cursor-pointer"
       >
         Annuler
       </button>
       <button
         onClick={handleAdd}
-        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
       >
         Ajouter
       </button>
