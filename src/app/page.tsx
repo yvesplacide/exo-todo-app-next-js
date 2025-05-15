@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-300 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-gray-400 flex items-center justify-center p-4">
       <div className="bg-gray-50 shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">
           Bienvenue sur la Todo App 📝
