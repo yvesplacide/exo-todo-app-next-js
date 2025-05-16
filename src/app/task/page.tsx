@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ITodo } from "@/interfaces/todo";
-import { updateTask, getStoredTodos } from "@/gateways/todo";
+import { updateTask, getStoredTodos, saveTasks } from "@/gateways/todo";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -18,11 +18,23 @@ export default function TaskPage() {
     updateTask(updatedTask);
     setTasks(getStoredTodos());
   };
+  const deleteAllTasks = () => {
+  localStorage.removeItem("todos"); // supprime toutes les tâches stockées
+  saveTasks([]); // vide le stockage local
+  setTasks([]); // vide l’état local
+};
 
   return (
     <div className="min-h-screen bg-gray-400 px-4 py-8 flex flex-col items-center">
   <div className="w-full max-w-4xl bg-gray-200 rounded-2xl shadow-md p-6">
     <div className="flex justify-between items-center mb-6">
+      
+      <Link
+        href="/"
+        className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
+      >
+        Retour à l'accueil
+      </Link>
       <h1 className="text-2xl font-bold text-gray-800">Liste des tâches</h1>
       <Link
         href="/createtask"
@@ -30,6 +42,8 @@ export default function TaskPage() {
       >
         + Creer une nouvelle tâche
       </Link>
+      
+
     </div>
 
     {tasks.length === 0 ? (
@@ -72,13 +86,13 @@ export default function TaskPage() {
         <div className="flex justify-center gap-2">
           <button
             onClick={() => router.push(`/updatetask?id=${task.id}`)}
-            className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300 transition"
+            className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300 transition cursor-pointer"
           >
             Éditer
           </button>
           <button
             onClick={() => router.push(`/deletetask?id=${task.id}`)}
-            className="bg-red-100 text-red-700 px-3 py-1 rounded-lg hover:bg-red-200 transition"
+            className="bg-red-100 text-red-700 px-3 py-1 rounded-lg hover:bg-red-200 transition-300 cursor-pointer transition duration-300"
           >
             Supprimer
           </button>
@@ -93,12 +107,18 @@ export default function TaskPage() {
 
     {/* Bouton Retour à l'accueil */}
     <div className="mt-6 flex justify-center">
-      <Link
-        href="/"
-        className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
+      
+      <button
+        onClick={deleteAllTasks}
+        disabled={tasks.length === 0}
+        className={`px-4 py-2 rounded-lg  
+        ${tasks.length === 0 
+      ? "bg-gray-400 text-white cursor-not-allowed" 
+      : "bg-red-600 text-white hover:bg-red-700 cursor-pointer"}`}
       >
-        Retour à l'accueil
-      </Link>
+        🗑 Supprimer toutes les tâches
+        </button>
+
     </div>
   </div>
 </div>
