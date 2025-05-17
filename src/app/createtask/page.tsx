@@ -42,8 +42,8 @@ export default function CreateTask() {
           onChange={(e) => setStatus(e.target.value)}
           className="border p-2 text-gray-800 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
         >
-          <option value="in_progress">En cours</option>
-          <option value="completed">Terminée</option>
+          <option value="in_progress">En cours ⏳</option>
+          <option value="completed">Terminée ✅</option>
         </select>
 
         <div className="flex justify-end gap-3">

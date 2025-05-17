@@ -52,8 +52,8 @@ export default function UpdateTask() {
     }
     className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
   >
-    <option value="in-progress">En cours</option>
-    <option value="completed">Terminée</option>
+    <option value="in-progress">En cours ⏳</option>
+    <option value="completed">Terminée ✅</option>
   </select>
 </label>
 
@@ -66,7 +66,7 @@ export default function UpdateTask() {
   </button>
   <button
     onClick={handleUpdate}
-    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition cursor-pointer"
+    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
   >
     Enregistrer
   </button>
