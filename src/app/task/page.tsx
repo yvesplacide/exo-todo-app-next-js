@@ -3,31 +3,29 @@ import { useEffect, useState } from "react";
 import { ITodo } from "@/interfaces/todo";
 import { updateTask, getStoredTodos } from "@/gateways/todo";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion"; // tout en haut de ton fichier
-
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export default function TaskPage() {
   const [tasks, setTasks] = useState<ITodo[]>([]);
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
-  const [lastAddedId, setLastAddedId] = useState<string | Number | null>(null);
+  const [lastAddedId, setLastAddedId] = useState<string | number | null>(null);
 
   const router = useRouter();
 
   useEffect(() => {
-  const newTasks = getStoredTodos();
-  const previousIds = tasks.map((t) => t.id);
-  const newOnes = newTasks.filter((t) => !previousIds.includes(t.id));
+    const newTasks = getStoredTodos();
+    const previousIds = tasks.map((t) => t.id);
+    const newOnes = newTasks.filter((t) => !previousIds.includes(t.id));
 
-  if (newOnes.length > 0) {
-    setLastAddedId(newOnes[newOnes.length - 1].id);
-  } else {
-    setLastAddedId(null); // plus rien à animer
-  }
+    if (newOnes.length > 0) {
+      setLastAddedId(newOnes[newOnes.length - 1].id);
+    } else {
+      setLastAddedId(null);
+    }
 
-  setTasks(newTasks);
-}, []);
-
+    setTasks(newTasks);
+  }, []); // ✅ tableau vide pour n'appeler qu'au montage
 
   const toggleComplete = (task: ITodo) => {
     const updatedTask = { ...task, completed: !task.completed };
@@ -35,12 +33,10 @@ export default function TaskPage() {
     setTasks(getStoredTodos());
   };
 
-  // Compteurs
   const totalTasks = tasks.length;
   const completedCount = tasks.filter((t) => t.completed).length;
   const incompleteCount = tasks.filter((t) => !t.completed).length;
 
-  // Tâches filtrées
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed;
     if (filter === "incomplete") return !task.completed;
@@ -50,13 +46,12 @@ export default function TaskPage() {
   return (
     <div className="min-h-screen bg-gray-400 px-4 py-8 flex flex-col items-center">
       <div className="w-full max-w-4xl bg-gray-200 rounded-2xl shadow-md p-6">
-        
         <div className="flex justify-between items-center mb-6">
           <Link
             href="/"
             className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
           >
-            Retour à l'accueil
+            Retour à l&apos;accueil
           </Link>
           <h1 className="text-2xl font-bold text-gray-800">Liste des tâches</h1>
           <Link
@@ -67,7 +62,6 @@ export default function TaskPage() {
           </Link>
         </div>
 
-        {/* Filtres par statut */}
         <div className="mb-6 flex justify-center gap-6 text-gray-700">
           <label className="flex items-center gap-2">
             <input
@@ -112,63 +106,61 @@ export default function TaskPage() {
                 <th className="p-3 border-b">Actions</th>
               </tr>
             </thead>
-           <tbody>
-  <AnimatePresence>
-    {filteredTasks.map((task) => (
-      <motion.tr
-        key={task.id}
-        initial={task.id === lastAddedId ? { opacity: 0, y: -10 } : false}
-        animate={task.id === lastAddedId ? { opacity: 1, y: 0 } : false}
-        transition={{ duration: 0.3 }}
-        className="hover:bg-gray-50 text-center"
-      >
-        <td className="p-3 border-b">
-          <span
-            className={`font-medium ${
-              task.completed ? "line-through text-gray-400" : "text-gray-800"
-            }`}
-          >
-            {task.title}
-          </span>
-        </td>
-        <td className="p-3 border-b">
-          <span
-            onClick={() => toggleComplete(task)}
-            className={`cursor-pointer font-semibold px-2 py-1 rounded-full text-sm ${
-              task.completed
-                ? "bg-green-100 text-green-700"
-                : "bg-yellow-100 text-yellow-700"
-            }`}
-            title="Cliquer pour changer le statut"
-          >
-            {task.completed ? "Terminé" : "En cours"}
-          </span>
-        </td>
-        <td className="p-3 border-b">
-          <div className="flex justify-center gap-2">
-            <button
-              onClick={() => router.push(`/updatetask?id=${task.id}`)}
-              className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300 transition cursor-pointer"
-            >
-              Éditer
-            </button>
-            <button
-              onClick={() => router.push(`/deletetask?id=${task.id}`)}
-              className="bg-red-100 text-red-700 px-3 py-1 rounded-lg hover:bg-red-200 transition-300 cursor-pointer transition duration-300"
-            >
-              Supprimer
-            </button>
-          </div>
-        </td>
-      </motion.tr>
-    ))}
-  </AnimatePresence>
-</tbody>
-
+            <tbody>
+              <AnimatePresence>
+                {filteredTasks.map((task) => (
+                  <motion.tr
+                    key={task.id}
+                    initial={task.id === lastAddedId ? { opacity: 0, y: -10 } : false}
+                    animate={task.id === lastAddedId ? { opacity: 1, y: 0 } : false}
+                    transition={{ duration: 0.3 }}
+                    className="hover:bg-gray-50 text-center"
+                  >
+                    <td className="p-3 border-b">
+                      <span
+                        className={`font-medium ${
+                          task.completed ? "line-through text-gray-400" : "text-gray-800"
+                        }`}
+                      >
+                        {task.title}
+                      </span>
+                    </td>
+                    <td className="p-3 border-b">
+                      <span
+                        onClick={() => toggleComplete(task)}
+                        className={`cursor-pointer font-semibold px-2 py-1 rounded-full text-sm ${
+                          task.completed
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                        title="Cliquer pour changer le statut"
+                      >
+                        {task.completed ? "Terminé" : "En cours"}
+                      </span>
+                    </td>
+                    <td className="p-3 border-b">
+                      <div className="flex justify-center gap-2">
+                        <button
+                          onClick={() => router.push(`/updatetask?id=${task.id}`)}
+                          className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg hover:bg-gray-300 transition cursor-pointer"
+                        >
+                          Éditer
+                        </button>
+                        <button
+                          onClick={() => router.push(`/deletetask?id=${task.id}`)}
+                          className="bg-red-100 text-red-700 px-3 py-1 rounded-lg hover:bg-red-200 transition duration-300 cursor-pointer"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </AnimatePresence>
+            </tbody>
           </table>
         )}
 
-        {/* Bouton Supprimer toutes les tâches */}
         <div className="mt-6 flex justify-center">
           <button
             onClick={() => router.push("/delete-all-tasks")}
